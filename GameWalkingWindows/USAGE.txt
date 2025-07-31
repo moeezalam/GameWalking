@@ -1,0 +1,136 @@
+GameWalking Desktop - Usage Guide
+=================================
+
+BASIC USAGE:
+1. Run: python main.py
+2. Click "Start Listener"
+3. Click "Activate Key Sender"
+4. Open your game (Death Stranding, etc.)
+5. Connect Android app with your PC's IP
+6. Start walking with your phone!
+
+STEP-BY-STEP GAMING SETUP:
+
+1. PREPARE YOUR PC
+   - Run GameWalking Desktop
+   - Click "Start Listener" (should show "Listening" status)
+   - Click "Activate Key Sender" (button changes to "Deactivate")
+   - Note your PC's IP address in the status area
+
+2. PREPARE YOUR GAME
+   - Launch Death Stranding (or any WASD game)
+   - Make sure the game window is active/focused
+   - Verify 'W' key moves character forward
+   - If not, change "Forward Key" in GameWalking settings
+
+3. CONNECT ANDROID APP
+   - Open GameWalking app on your phone
+   - Enter your PC's IP address (e.g., 192.168.1.100)
+   - Keep port as 9000
+   - Tap "Start Step Detection"
+   - Grant permissions when asked
+
+4. START WALKING
+   - Put phone in your pocket (screen can be off)
+   - Walk around your room
+   - Your game character should move forward with each step!
+   - Check PC app log for "Step received" messages
+
+SETTINGS EXPLAINED:
+
+- Port: Network port for communication (default: 9000)
+  * Change if you get "port in use" errors
+  * Must match port in Android app
+
+- Forward Key: Keyboard key to press (default: 'w')
+  * Use 'w' for most games
+  * Change to 'up' for arrow key games
+  * Use 'space' for jump-based games
+
+- Key Hold Duration: How long to hold key (default: 0.05 seconds)
+  * Increase for games that need longer presses
+  * Decrease for more responsive movement
+  * Range: 0.01 to 1.0 seconds
+
+GAME-SPECIFIC TIPS:
+
+Death Stranding:
+- Use default settings (W key, 0.05 duration)
+- Make sure Sam is standing (not in menu)
+- Works great for walking/hiking gameplay
+
+Minecraft:
+- Use 'w' key, increase duration to 0.1 seconds
+- Good for exploration and building
+
+Any Racing Game:
+- Change key to 'up' or accelerator key
+- Adjust duration based on game responsiveness
+
+TROUBLESHOOTING GAMEPLAY:
+
+"Character not moving":
+- Check if game window is focused (click on it)
+- Verify correct forward key in game settings
+- Try "Test Key" button in GameWalking
+- Make sure key sender is activated
+
+"Movement too fast/slow":
+- Adjust "Key Hold Duration" setting
+- Walk more slowly/quickly with phone
+- Some games have acceleration - experiment
+
+"Intermittent movement":
+- Check WiFi connection stability
+- Move closer to WiFi router
+- Close other network-heavy applications
+
+"Game crashes or freezes":
+- Some games don't like rapid key presses
+- Increase key hold duration
+- Walk more slowly
+- Check game compatibility
+
+ADVANCED USAGE:
+
+Console Mode (no GUI):
+python main.py --no-gui
+
+Debug Mode (see detailed logs):
+python main.py --debug
+
+Custom Port:
+python main.py --port 8000
+
+System Tray Mode:
+- Check "Minimize to system tray"
+- App runs in background
+- Right-click tray icon to control
+
+PERFORMANCE TIPS:
+
+For Best Experience:
+- Use stable WiFi connection
+- Keep phone and PC close to router
+- Close unnecessary apps on both devices
+- Use wired internet if WiFi is unstable
+
+For Gaming:
+- Lower game graphics if experiencing lag
+- Close other games and heavy applications
+- Make sure game is in focus
+- Test with simple games first (like Notepad)
+
+SAFETY FEATURES:
+
+PyAutoGUI FailSafe:
+- Move mouse to screen corner to emergency stop
+- Prevents runaway key presses
+- App will deactivate automatically
+
+Manual Stop:
+- Click "Deactivate Key Sender" anytime
+- Close app to stop all activity
+- Ctrl+C in console mode
+
+Remember: Always test in a safe game environment first!

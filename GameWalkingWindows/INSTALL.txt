@@ -1,0 +1,63 @@
+GameWalking Desktop - Installation Guide
+=====================================
+
+QUICK SETUP:
+1. Install Python 3.8+ from python.org
+2. Open Command Prompt in this folder
+3. Run: pip install -r requirements.txt
+4. Run: python main.py
+5. Configure Windows Firewall (see below)
+6. Connect your Android app with your PC's IP address
+
+DETAILED INSTALLATION:
+
+1. INSTALL PYTHON
+   - Download Python 3.8 or newer from https://python.org
+   - During installation, check "Add Python to PATH"
+   - Verify installation: open Command Prompt and type "python --version"
+
+2. INSTALL DEPENDENCIES
+   - Open Command Prompt
+   - Navigate to GameWalking folder: cd "C:\path\to\GameWalkingWindows"
+   - Install packages: pip install -r requirements.txt
+
+3. CONFIGURE FIREWALL
+   Option A (Recommended): Right-click firewall_setup.bat → "Run as administrator"
+   
+   Option B (Manual):
+   - Open Windows Defender Firewall
+   - Click "Allow an app or feature through Windows Defender Firewall"
+   - Click "Change Settings" → "Allow another app..."
+   - Browse to python.exe (usually C:\Users\YourName\AppData\Local\Programs\Python\Python3x\python.exe)
+   - Check both "Private" and "Public"
+   - Click OK
+
+4. FIND YOUR PC'S IP ADDRESS
+   - Open Command Prompt
+   - Type: ipconfig
+   - Look for "IPv4 Address" under your WiFi adapter
+   - Example: 192.168.1.100
+
+5. RUN THE APPLICATION
+   - Double-click main.py OR
+   - Open Command Prompt and run: python main.py
+
+6. CONNECT ANDROID APP
+   - Install GameWalking app on your Android phone
+   - Enter your PC's IP address (from step 4)
+   - Use port 9000
+   - Start step detection on phone
+   - Start listener and activate key sender on PC
+
+TROUBLESHOOTING:
+- If "python" command not found: Reinstall Python with "Add to PATH" checked
+- If firewall blocks connection: Run firewall_setup.bat as administrator
+- If port 9000 in use: Change port in PC app settings and Android app
+- If game doesn't respond: Make sure game window is active and uses 'W' for forward
+
+BUILDING EXECUTABLE (OPTIONAL):
+- Run: python build_exe.py
+- Executable will be created in dist/GameWalking.exe
+- Copy GameWalking.exe to any Windows PC (no Python installation needed)
+
+For more help, see README.md
