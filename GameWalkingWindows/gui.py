@@ -9,15 +9,17 @@ import os
 import sys
 
 class GameWalkingGUI:
-    def __init__(self, udp_listener, key_sender):
+    def __init__(self, udp_listener, key_sender, config):
         self.udp_listener = udp_listener
         self.key_sender = key_sender
+        self.config = config
         self.root = tk.Tk()
         self.is_minimized_to_tray = False
         
         # Set up the main window
         self.setup_window()
         self.create_widgets()
+        self.load_settings()
         self.setup_tray()
         
         # Status update timer
@@ -103,17 +105,14 @@ class GameWalkingGUI:
         
         ttk.Label(settings_frame, text="Port:").grid(row=0, column=0, sticky=tk.W, padx=(0, 10))
         self.port_entry = ttk.Entry(settings_frame, width=10)
-        self.port_entry.insert(0, "9000")
         self.port_entry.grid(row=0, column=1, sticky=tk.W, pady=(0, 5))
         
         ttk.Label(settings_frame, text="Forward Key:").grid(row=1, column=0, sticky=tk.W, padx=(0, 10))
         self.key_entry = ttk.Entry(settings_frame, width=10)
-        self.key_entry.insert(0, "w")
         self.key_entry.grid(row=1, column=1, sticky=tk.W, pady=(0, 5))
         
         ttk.Label(settings_frame, text="Key Hold Duration (s):").grid(row=2, column=0, sticky=tk.W, padx=(0, 10))
         self.duration_entry = ttk.Entry(settings_frame, width=10)
-        self.duration_entry.insert(0, "0.05")
         self.duration_entry.grid(row=2, column=1, sticky=tk.W, pady=(0, 5))
         
         self.save_settings_button = ttk.Button(settings_frame, text="Save Settings", 
@@ -143,6 +142,27 @@ class GameWalkingGUI:
         minimize_check = ttk.Checkbutton(main_frame, text="Minimize to system tray", 
                                         variable=self.minimize_to_tray_var)
         minimize_check.grid(row=5, column=0, columnspan=2, pady=(10, 0))
+    
+    def load_settings(self):
+        """Load settings from config file into GUI"""
+        # Load network settings
+        port = self.config.get('NETWORK', 'port', '9000')
+        self.port_entry.delete(0, tk.END)
+        self.port_entry.insert(0, port)
+        self.port_label.config(text=port)
+        
+        # Load control settings
+        forward_key = self.config.get('CONTROLS', 'forward_key', 'w')
+        self.key_entry.delete(0, tk.END)
+        self.key_entry.insert(0, forward_key)
+        
+        key_hold_duration = self.config.get('CONTROLS', 'key_hold_duration', '0.05')
+        self.duration_entry.delete(0, tk.END)
+        self.duration_entry.insert(0, key_hold_duration)
+        
+        # Load general settings
+        minimize_to_tray = self.config.getboolean('GENERAL', 'minimize_to_tray', False)
+        self.minimize_to_tray_var.set(minimize_to_tray)
     
     def setup_tray(self):
         """Set up system tray icon"""
@@ -208,14 +228,20 @@ class GameWalkingGUI:
             if duration < 0.01 or duration > 1.0:
                 raise ValueError("Duration must be between 0.01 and 1.0 seconds")
             
-            # Update settings
+            # Save to config file
+            self.config.set('NETWORK', 'port', str(port))
+            self.config.set('CONTROLS', 'forward_key', key)
+            self.config.set('CONTROLS', 'key_hold_duration', str(duration))
+            self.config.set('GENERAL', 'minimize_to_tray', str(self.minimize_to_tray_var.get()).lower())
+            
+            # Update runtime settings
             if self.udp_listener.update_port(port):
                 self.port_label.config(text=str(port))
             
             self.key_sender.update_settings(key, None, duration)
             
             messagebox.showinfo("Success", "Settings saved successfully")
-            self.log_message("Settings updated")
+            self.log_message(f"Settings saved - Port: {port}, Key: {key}, Duration: {duration}s")
             
         except ValueError as e:
             messagebox.showerror("Error", f"Invalid settings: {e}")

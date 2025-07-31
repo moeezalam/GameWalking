@@ -81,7 +81,7 @@ def main():
             udp_listener.update_port(args.port)
         
         # Create and run GUI
-        app = GameWalkingGUI(udp_listener, key_sender)
+        app = GameWalkingGUI(udp_listener, key_sender, config)
         # Update callback to point to GUI
         udp_listener.gui_callback = app.update_status
         
